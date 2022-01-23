@@ -67,7 +67,7 @@ public class StaticValue {
         }
 
         // run left init
-        for(int i = 1;i<2;i++){
+        for(int i = 1;i<=2;i++){
             try {
                 run_L.add(ImageIO.read(new File(path+"s_mario_run"+i+"_L.png")));
             } catch (IOException e) {
@@ -76,7 +76,7 @@ public class StaticValue {
         }
 
         // run right init
-        for(int i = 1;i<2;i++){
+        for(int i = 1;i<=2;i++){
             try {
                 run_R.add(ImageIO.read(new File(path+"s_mario_run"+i+"_R.png")));
             } catch (IOException e) {
@@ -94,7 +94,7 @@ public class StaticValue {
         }
 
         // init tube
-        for(int i = 1;i<4;i++){
+        for(int i = 1;i<=4;i++){
             try {
                 obstacle.add(ImageIO.read(new File(path+"pipe"+i+".png")));
             } catch (IOException e) {
@@ -112,7 +112,7 @@ public class StaticValue {
 
         // init mushroom
 
-        for(int i = 1;i<3;i++){
+        for(int i = 1;i<=3;i++){
             try {
                 mushroom.add(ImageIO.read(new File(path+"fungus"+i+".png")));
             } catch (IOException e) {
@@ -122,7 +122,7 @@ public class StaticValue {
 
         // init flower
 
-        for(int i = 1;i<2;i++){
+        for(int i = 1;i<=2;i++){
             try {
                 flower.add(ImageIO.read(new File(path+"flower1."+i+".png")));
             } catch (IOException e) {

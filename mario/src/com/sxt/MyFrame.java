@@ -66,13 +66,24 @@ public class MyFrame extends JFrame implements KeyListener {
         //绘制背景  绘制了nowBg的值
         graphics.drawImage(nowBg.getBgImage(),0,0,this);
 
+        // 绘制障碍物
+        for(Obstacle ob:nowBg.getObstacleList()){
+            graphics.drawImage(ob.getShow(),ob.getX(),ob.getY(),this);
+        }
+        // 绘制城堡
+        graphics.drawImage(nowBg.getTower(),620,270,this);
+        //绘制旗杆
+        graphics.drawImage(nowBg.getGan(),500,220,this);
+
         //绘制到窗口中
         g.drawImage(offScreenImage,0,0,this);
     }
 
     public static void main(String[] args) {
         MyFrame s = new MyFrame();
-
+        for(int i = 1;i<2;i++){
+            System.out.println("hello");
+        }
     }
 
     @Override

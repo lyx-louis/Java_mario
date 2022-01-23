@@ -18,7 +18,8 @@ public class Obstacle {
         this.y = y;
         this.type = type;
         this.bg = bg;
-        show = StaticValue.obstacle.get(type);
+        show = StaticValue.obstacle.get(type); // StaticValue 根据obstacle的值来选择
+
 
     }
 
