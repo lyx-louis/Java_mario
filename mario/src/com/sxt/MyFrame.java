@@ -24,6 +24,10 @@ public class MyFrame extends JFrame implements KeyListener {
     //双缓存 ?
     private Image offScreenImage = null;
 
+    //马里奥对象
+    private Mario mario = new Mario();
+
+
     public MyFrame(){
         // 设置窗口的大小
         this.setSize(800,600);
@@ -43,13 +47,16 @@ public class MyFrame extends JFrame implements KeyListener {
         // init images
         StaticValue.init();
 
+        //初始化马里奥
+        mario = new Mario(10,395);
+
         // 创建全部场景
         for(int i=1;i<=3;i++){
             allBg.add(new BackGround(i,i== 3 ? true : false));
             // i 是不是最后一张？
         }
         // 初始化场景
-        nowBg = allBg.get(2);
+        nowBg = allBg.get(0);
         //绘制图像
         repaint();
     }
@@ -74,6 +81,10 @@ public class MyFrame extends JFrame implements KeyListener {
         graphics.drawImage(nowBg.getTower(),620,270,this);
         //绘制旗杆
         graphics.drawImage(nowBg.getGan(),500,220,this);
+
+        //绘制马里奥
+        graphics.drawImage(mario.getShow(),mario.getX(),mario.getY(),this);
+
 
         //绘制到窗口中
         g.drawImage(offScreenImage,0,0,this);
