@@ -16,7 +16,7 @@ import java.util.List;
 
 
 
-public class MyFrame extends JFrame implements KeyListener {
+public class MyFrame extends JFrame implements KeyListener ,Runnable{
     // 存储所有的背景
     private List<BackGround> allBg = new ArrayList<>();
     // 用于存储当前的背景
@@ -27,6 +27,8 @@ public class MyFrame extends JFrame implements KeyListener {
     //马里奥对象
     private Mario mario = new Mario();
 
+    //x线程对象
+    private Thread thread = new Thread(this);
 
     public MyFrame(){
         // 设置窗口的大小
@@ -48,7 +50,7 @@ public class MyFrame extends JFrame implements KeyListener {
         StaticValue.init();
 
         //初始化马里奥
-        mario = new Mario(10,395);
+        mario = new Mario(10,355);
 
         // 创建全部场景
         for(int i=1;i<=3;i++){
@@ -57,8 +59,10 @@ public class MyFrame extends JFrame implements KeyListener {
         }
         // 初始化场景
         nowBg = allBg.get(0);
+        mario.setBackGround(nowBg);
         //绘制图像
         repaint();
+        thread.start();
     }
 
     @Override
@@ -104,13 +108,48 @@ public class MyFrame extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        // 向右移动
+        if(e.getKeyCode() == 39){
+            mario.rightMove();
+        }
+        //向左移动
+        if(e.getKeyCode() == 37){
+            mario.leftMove();
+        }
+        if(e.getKeyCode() == 38){
+            mario.jump();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        //向左停止
+        if(e.getKeyCode() == 37){
+            mario.leftStop();
+        }
+        //向右停止
+        if(e.getKeyCode() == 39){
+            mario.rightStop();
+        }
     }
 
+    @Override
+    public void run() {
+        while (true){
+            repaint();
+            try {
+                Thread.sleep(50);
 
+                if(mario.getX() >= 775){
+                    nowBg = allBg.get(nowBg.getSort());
+                    mario.setBackGround(nowBg);
+                    mario.setX(10);
+                    mario.setY(355);
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

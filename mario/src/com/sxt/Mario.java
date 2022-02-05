@@ -28,6 +28,9 @@ public class Mario implements Runnable{
     //定义一个变量用于取得马里奥的运动图像
     private int index;
 
+    //表示马里奥上升的时间
+    private int upTime = 0;
+
     //向左移动给
     public void leftMove(){
         xSpeed = -5;
@@ -84,6 +87,30 @@ public class Mario implements Runnable{
 
     }
 
+    public void jump() {
+        if(status.indexOf("jump") == -1) {
+            if(status.indexOf("left")!= -1) {
+                // 方向向左
+                status = "jump--left";
+            }else{
+                // 方向向右
+                status = "jump--right";
+            }
+            ySpeed = -10;
+            upTime = 7;
+        }
+    }
+
+    // 马里奥下落
+    public void fall() {
+        if (status.indexOf("left") != -1){
+            status = "jump--left";
+        }else{
+            status = "jump--right";
+        }
+        ySpeed = 10;
+    }
+
     public int getX() {
         return x;
     }
@@ -108,9 +135,51 @@ public class Mario implements Runnable{
         this.show = show;
     }
 
+    public void setBackGround(BackGround backGround) {
+        this.backGround = backGround;
+    }
+
     @Override
     public void run() {
         while(true){
+            //判断是否处在障碍物上
+            boolean onObstacle = false;
+
+            // 遍历当前场景里所有的障碍物
+            for(int i =0;i<backGround.getObstacleList().size();i++){
+                Obstacle ob = backGround.getObstacleList().get(i);
+                //判断是否位于障碍物上
+                if(ob.getY()==this.y+25 && (ob.getX() > this.x -30 && ob.getX() < this.x + 25)) {
+                    onObstacle = true;
+                }
+            }
+            //进行跳跃的操作
+            if(onObstacle && upTime == 0){
+                if(status.indexOf("left") != -1) {
+                    if(xSpeed!=0) {
+                        // 状态为向左移动
+                        status = "move--left";
+                    }else{
+                        status = "stop--left";
+                    }
+                }else{
+                    if(xSpeed!=0) {
+                        // 状态为向右移动
+                        status = "move--right";
+                    }else{
+                        status = "stop--right";
+                    }
+                }
+            }else{
+                if(upTime!=0){
+                    upTime --;
+                }else{
+                    fall();
+                }
+                y += ySpeed;
+            }
+
+
             if(xSpeed  <0 || xSpeed >0) {
                 x += xSpeed;
                 //判断是否运动打动了最左
@@ -143,6 +212,16 @@ public class Mario implements Runnable{
             if("stop--right".equals(status)){
                 show = StaticValue.stand_R;
             }
+
+            //判断是否向左跳跃
+            if("jump--left".equals(status)){
+                show = StaticValue.stand_L;
+            }
+            //判断是否向右跳跃
+            if("jump--right".equals(status)){
+                show = StaticValue.stand_R;
+            }
+
 
             try {
                 Thread.sleep(50);
